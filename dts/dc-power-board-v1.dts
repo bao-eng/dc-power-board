@@ -1,0 +1,31 @@
+// Definitions for DC Power board
+/dts-v1/;
+/plugin/;
+
+/{
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target-path = "/chosen";
+		__overlay__ {
+			power: power {
+				hat_current_supply = <5000>; // mA
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&i2c_arm>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			ina226@45  {
+				compatible = "ti,ina226";
+				reg = <0x45>;
+				shunt-resistor = <16000>; // uOhm
+			};
+		};
+	};
+};
